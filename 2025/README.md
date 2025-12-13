@@ -1,0 +1,1 @@
+[Advent of Code 2025](https://adventofcode.com/2025) solutions written in [Go](https://go.dev/).

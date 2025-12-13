@@ -1,0 +1,1 @@
+This is a parent repository to contain yearly challenges from [Advent of Code](https://adventofcode.com/).
