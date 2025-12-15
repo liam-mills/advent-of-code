@@ -1,6 +1,6 @@
 // @ts-check
 
-const input = [
+const input: string[] = [
     '78847-119454',
     '636-933',
     '7143759788-7143793713',
@@ -36,24 +36,34 @@ const input = [
     '9292901468-9292987321'
 ]
 
-let total = 0
+let total: number = 0
+let invalidIds: number[] = []
 
-input.forEach(input => {
-    const split = input.split('-')
-    console.log(split)
+// Check factors except itself.
+const factors = (input: number) => [...Array(input + 1).keys()].filter(index => input %index === 0).filter(index => index !== input)
 
-    for (let id = Number(split[0]); id < Number(split[1]) + 1; id++) {
-        const idString = id.toString()
+const checkInvalid = (id: string, factor: number) => {
+    // Split ID string into segments by factor, then flatten (using Set). If the Set size is 1, then all array items are equal, meaning the ID contains repeated characters and is invalid.
+    const segments = new Set(id.match(new RegExp(`.{${factor}}`, 'g')))
 
-        // Check if the current ID is of an equal string length then split to test if both sides of that string are equal.
-        if (idString.length % 2 === 0) {
-            const idLeftSplit = Number(idString.slice(0, idString.length/2))
-            const idRightSplit = Number(idString.slice(idString.length/2, idString.length))
-            if (idLeftSplit === idRightSplit) {
-                total += id
-            }
+    return segments.size === 1
+}
+
+input.map(range => {
+    const [min, max] = range.split('-')
+
+    for (let index: number = Number(min); index < Number(max) + 1; index++) {
+        const id: string = String(index)
+        if (factors(id.length).length >= 1) {
+            factors(id.length).map(factor => {
+                // Check for invalid ID. If the current ID has already been confirmed as invalid, don't test it again with a new factor.
+                if (checkInvalid(id, factor)) invalidIds.push(index)
+            })
         }
     }
 });
+
+// Remove duplicate IDs from the array and then sum them up.
+total = [...new Set(invalidIds)].filter(Boolean).reduce((count, index) => count + index)
 
 console.log(total)

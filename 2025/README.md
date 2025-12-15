@@ -4,9 +4,9 @@
 
 ## Testing
 
-Solutions can be executed with the following:
+Solutions can be executed with the following (assuming you are running code from the /2025 folder):
 
-`node <day>/answer.ts`
+`npx ts-node <day>/answer.ts`
 
 ## Progress
 
