@@ -56,12 +56,11 @@ input.map(range => {
         const id: string = String(index)
         if (factors(id.length).length >= 1) {
             factors(id.length).map(factor => {
-                // Check for invalid ID. If the current ID has already been confirmed as invalid, don't test it again with a new factor.
                 if (checkInvalid(id, factor)) invalidIds.push(index)
             })
         }
     }
-});
+})
 
 // Remove duplicate IDs from the array and then sum them up.
 total = [...new Set(invalidIds)].filter(Boolean).reduce((count, index) => count + index)
